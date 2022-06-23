@@ -9,17 +9,15 @@ jobs:
 	  runs-on: ubuntu-latest
 
 	  steps:
-	  - name: Say Hello World 1
-	  shell : bash
-	  env:
-		  STEP_LEVEL_1: 'THIS COM STEP LEVEL 1'
-	  run: |
-	  	echo "Hello World from step 1"
-	  	echo "STEP_VALUE_1='THIS IS SET BY STEP !'" >> $GITHUB_ENV
+    - name: set output value
+      id: first
+      shell: bash
+      run: |
+        first_value="This is the first output value"
 
-  	- name: Say Hello World 2
-  	shell: pwsh
-  	run: |
-	  	echo "Hello World from step 2"
-	  	echo "VALUE:$env:STEP_VALUE_1"
-      echo "VALUE: ${{ env.STEP_VALUE_1 }}"
+        echo "::set-output name=my_first_value::$first_value"
+  
+    - name: get output value
+      shell: bash
+      run: |
+        echo ${{ steps.first.outputs.my_first_value }}
