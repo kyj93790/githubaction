@@ -5,10 +5,6 @@ name: 'My first github action'
 
 on: push
 
-# 어디에서든 참조 가능
-env:
-	WORKFLOW_LEVEL: 'THIS VALUE COMES FROM THE WORKFLOW LEVEL'
-
 jobs:
 	#  해당 job의 빌드 서버
 	first-job:
@@ -17,10 +13,6 @@ jobs:
     # 운영체제 (macos-latest, ubuntu-latest)
 	runs-on: ubuntu-latest
 
-	# 아래 step들에서는 전부 사용 가능
-	env:
-	JOB_LEVEL_1: 'THIS COMES FROM JOB LEVEL 1'
-
     # 돌리는 순서
 	steps:
 	- name: Say Hello World 1
@@ -29,52 +21,12 @@ jobs:
 		STEP_LEVEL_1: 'THIS COM STEP LEVEL 1'
 	run: |
 		echo "Hello World from step 1"
-		echo $WORKFLOW_LEVEL
-		echo $JOB_LEVEL_1
-		echo $JOB_LEVEL_2
-		echo $STEP_LEVEL_1
+		# echo한 값을 GITHUB_ENV에 append (>>)
+		echo "STEP_VALUE_1='THIS IS SET BY STEP !'" >> $GITHUB_ENV
 
 	- name: Say Hello World 2
 	shell: pwsh
 	run: |
-		echo "Hello World from step 1"
-		echo $WORKFLOW_LEVEL
-		echo $JOB_LEVEL_1
-		echo $JOB_LEVEL_2
-		echo $STEP_LEVEL_1
-
-	second-job:
-	name: 'second job'
-
-    # 운영체제 (macos-latest, ubuntu-latest)
-	runs-on: ubuntu-latest
-
-	# 아래 step들에서는 전부 사용 가능
-	env:
-	JOB_LEVEL_1: 'THIS COMES FROM JOB LEVEL 1'
-
-    # 돌리는 순서
-	steps:
-	- name: Say Hello World 1
-	shell : bash
-	env:
-		STEP_LEVEL_1: 'THIS COM STEP LEVEL 1'
-	run: |
-		echo "Hello World from step 1"
-		echo $WORKFLOW_LEVEL
-		echo $JOB_LEVEL_1
-		echo $JOB_LEVEL_2
-		echo $STEP_LEVEL_1
-		echo $STEP_LEVEL_2
-
-	- name: Say Hello World 2
-	shell: pwsh
-	env:
-		STEP_LEVEL_1: 'THIS COM STEP LEVEL 2'
-	run: |
-		echo "Hello World from step 1"
-		echo $WORKFLOW_LEVEL
-		echo $JOB_LEVEL_1
-		echo $JOB_LEVEL_2
-		echo $STEP_LEVEL_1
-		echo $STEP_LEVEL_2
+		echo "Hello World from step 2"
+		echo "VALUE:$env:STEP_VALUE_1"
+    echo "VALUE: ${{env.STEP_VALUE_1 }}"
