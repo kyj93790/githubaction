@@ -1,0 +1,26 @@
+# name : github workflow를 가리키는 고유 이름
+# on : github action의 실행 타이밍
+# file하나당 event 하나가 좋음.
+name: 'My first github action'
+
+on: push
+
+jobs:
+  #  해당 job의 빌드 서버
+  first-job:
+    name: 'first job'
+
+    # 운영체제 (macos-latest, ubuntu-latest)
+    runs-on: ubuntu-latest
+
+    # 돌리는 순서
+    steps:
+      - name: Say Hello World 1
+      shell : bash
+      run: |
+        echo "Hello World from step 1"
+
+      - name: Say Hello World 2
+      shell: pwsh
+      run: |
+        echo "Hello World from step 2"
